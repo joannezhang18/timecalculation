@@ -1,0 +1,14 @@
+select 
+yz.loan_application_id::text, 
+'ram',
+'work_hour_flag'
+calldurationseconds,
+dense_rank()over(partition by yz.loan_application_id order by started_time at time zone 'UTC')as rank_call,
+started_time at time zone 'UTC,
+ram at time zone 'UTC',
+case when(started_time AT TIME ZONE 'UTC'-ram at timezone 'UTC')::interval<='00:30:00'and (started_time AT TIME ZONE 'UTC'-ram at time zone 'UTC)::interval>='00:00:00 
+then 1 else 0 end as  within_30mins
+
+from yzhang.base_table yz
+group by 1,2,3,4,6,7
+order by1
